@@ -1,9 +1,14 @@
+export const revalidate = 604800;
+
+import { getProductSlug } from "@/actions";
+import { StockLabel } from "@/components";
 import QuantitySelector from "@/components/product/quantity-selector/QuantitySelector";
 import SizeSelector from "@/components/product/size-selector/SizeSelector";
 import ProductMovileSliceShow from "@/components/product/sliceshow/ProductMovileSliceShow";
 import ProductSliceShow from "@/components/product/sliceshow/ProductSliceShow";
+
 import { titleFont } from "@/config/fonts";
-import { initialData } from "@/seed/seed";
+import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -12,11 +17,32 @@ interface Props {
   }
 }
 
-export default function ProductPage({ params }: Props) {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const slug = params.slug
+ 
+  const product = await getProductSlug(slug);
+ 
+  // const previousImages = (await parent).openGraph?.images || []
+ 
+  return {
+    title: product?.title ?? 'Producto no encontrado',
+    description: product?.description ?? '',
+    openGraph: {
+      title: product?.title ?? 'Producto no encontrado',
+      description: product?.description ?? '',
+      images: [`/products/${product?.images[1]}`],
+    },
+  }
+}
+
+export default async function ProductPage({ params }: Props) {
 
   const { slug } = params;
 
-  const product = initialData.products.find(product => product.slug === slug);
+  const product = await getProductSlug(slug)
 
   if( !product ) {
     notFound();
@@ -31,6 +57,7 @@ export default function ProductPage({ params }: Props) {
         <ProductSliceShow title={product.title} images={product.images} className='hidden md:block' />
       </div>
       <div className="col-span-1 px-5">
+        <StockLabel slug={product.slug} />
         <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>{product.title}</h1>
         <p className="text-lg mb-5">${product.price}</p>
 
