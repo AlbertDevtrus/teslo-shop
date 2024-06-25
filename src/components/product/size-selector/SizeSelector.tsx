@@ -2,11 +2,13 @@ import type { Size } from "@/interfaces/product.interface";
 import clsx from "clsx";
 
 interface Props {
-  selectedSize: Size,
-  availableSizes: Size[]
+  selectedSize?: Size,
+  availableSizes: Size[],
+
+  onSizeChange: ( size: Size ) => void
 }
 
-export default function SizeSelector({ availableSizes, selectedSize }: Props) {
+export default function SizeSelector({ availableSizes, selectedSize, onSizeChange }: Props) {
   return (
     <div className="my-5">
       <h3 className="font-bold mb-4"> Tallas disponibles </h3>
@@ -14,7 +16,8 @@ export default function SizeSelector({ availableSizes, selectedSize }: Props) {
         {
           availableSizes.map(size => (
             <button 
-              key={size} 
+              key={size}
+              onClick={() => onSizeChange(size)}
               className={
                 clsx("mx-2 hover:underline text-lg", 
                   {
