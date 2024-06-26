@@ -3,12 +3,18 @@ import prisma from '../lib/prisma'
 
 async function main() {
 
+  
+  await prisma.user.deleteMany();
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
 
 
-  const { categories, products } = initialData;
+  const { categories, products, users } = initialData;
+
+  await prisma.user.createMany({
+    data: users
+  })
 
   const categoriesData = categories.map((name) => ({name}))
 
@@ -23,7 +29,6 @@ async function main() {
 
     return map;
   }, {} as Record<string, string>);
-
 
   products.forEach(async (product) => {
     const {type, images, ...rest} = product;

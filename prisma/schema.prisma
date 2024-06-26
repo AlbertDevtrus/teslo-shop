@@ -24,6 +24,11 @@ enum Gender {
   unisex
 }
 
+enum Role {
+  admin
+  user
+}
+
 model Category {
   id      String    @id @default(uuid())
   name    String    @unique
@@ -41,9 +46,9 @@ model Product {
   slug        String   @unique
   gender      Gender
 
-  category     Category       @relation(fields: [categoryID], references: [id])
-  categoryID   String
-  
+  category   Category @relation(fields: [categoryID], references: [id])
+  categoryID String
+
   ProductImage ProductImage[]
 
   @@index([gender])
@@ -55,4 +60,14 @@ model ProductImage {
 
   product   Product @relation(fields: [productID], references: [id])
   productID String
+}
+
+model User {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  emailVerify DateTime?
+  password    String
+  role        Role      @default(user)
+  image       String?
 }
