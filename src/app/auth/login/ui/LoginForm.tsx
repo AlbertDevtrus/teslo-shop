@@ -1,16 +1,27 @@
 'use client';
+import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import Link from "next/link";
+import clsx from "clsx";
 
 import { authenticate } from "@/actions";
 import { IoInformationOutline } from "react-icons/io5";
-import clsx from "clsx";
+import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
 
   const [state, formAction] = useFormState(authenticate, undefined)
-
-  console.log({state})
+  const searchParamas = useSearchParams();
+  const params = searchParamas.get('origin');
+  
+  useEffect(() => {
+    if(state === 'Success') {
+      if(!!params) {
+        return window.location.replace(params);
+      }
+      window.location.replace('/')
+    }
+  }, [state, params]);
 
   return (
     <form action={formAction} className="flex flex-col">
