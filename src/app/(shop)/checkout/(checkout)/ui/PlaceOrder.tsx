@@ -6,13 +6,18 @@ import clsx from "clsx";
 import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat } from "@/utility";
 import { placeOrder } from "@/actions";
+import { useRouter } from "next/navigation";
 
 export const PlaceOrder = () => {
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState('');
   const [placingOrder, setPlacingOrder] = useState(false);
+
+  const router = useRouter();
 
   const address = useAddressStore((state) => state.address);
   const cart = useCartStore(state => state.cart);
+  const clearCart = useCartStore(state => state.clearCart);
   const { subTotal, itemsInCart, tax, total } = useCartStore((state) =>
     state.getSummaryInformation()
   );
@@ -32,7 +37,15 @@ export const PlaceOrder = () => {
     
     const resp = await placeOrder(productsToOrder, address);
 
-    setPlacingOrder(false);
+    if(!resp.ok) {
+      setPlacingOrder(false);
+      setError(resp.msg);
+      return;
+    }
+
+    clearCart();
+    router.replace('/orders/' + resp.order?.id);
+
   }
 
   if (!loaded) {
@@ -75,14 +88,14 @@ export const PlaceOrder = () => {
       </div>
 
       <div className="mt-5 mb-2 w-full">
-        <p className="mb-5">
+        <p className="mb-5 leading-3">
           <span className="text-xs">
             Al hacer click en colocar orden, aceptas nuestros terminos y
             condiciones de uso.
           </span>
         </p>
 
-        {/* <p className="text-red-500 text-center">Error de creacion</p> */}
+        <p className="text-red-500 text-center text-xs mb-3 leading-4">{error}</p>
 
         <button
           // href="/orders/123"

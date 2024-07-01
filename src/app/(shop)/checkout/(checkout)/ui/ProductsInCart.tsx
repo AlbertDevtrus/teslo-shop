@@ -36,7 +36,7 @@ export const ProductsInCart = () => {
           />
           <div>
             <span className="hover:text-blue-500">
-              {product.title} - <span className="font-semibold">{product.size}</span> {product.quantity}
+              {product.title} - <span className="font-semibold">{product.size}</span> ({product.quantity})
             </span>
             <p className="font-bold">{currencyFormat(product.price * product.quantity)}</p>
           </div>
