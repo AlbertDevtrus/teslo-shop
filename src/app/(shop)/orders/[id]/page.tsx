@@ -5,8 +5,9 @@ import { redirect } from "next/navigation";
 import { getOrderById } from "@/actions";
 import { currencyFormat } from "@/utility";
 
-import Title from "@/components/ui/title/Title";
 import { IoCartOutline } from "react-icons/io5";
+import Title from "@/components/ui/title/Title";
+import { PayPalBtn } from "@/components";
 
 interface Props {
   params: { id: string };
@@ -48,7 +49,7 @@ export default async function CartPage({ params }: Props) {
 
         <div className="flex flex-col gap-10">
           {products.map((product) => (
-            <div key={product.product.title} className="flex">
+            <div key={product.product.slug + product.size} className="flex">
               <Image
                 src={`/products/${product.product.ProductImage[0].url}`}
                 width={100}
@@ -99,20 +100,7 @@ export default async function CartPage({ params }: Props) {
         </div>
 
         <div className="mt-5 mb-2 w-full">
-          <div className="flex flex-col mt-5">
-            <div
-              className={clsx(
-                "flex items-center rounded-lg py-2 px-3.5  text-xs font-bold text-white mb-5",
-                {
-                  "bg-red-500": !order!.isPaid,
-                  "bg-green-700": order!.isPaid,
-                }
-              )}
-            >
-              <IoCartOutline size={30} />
-              <span className="mx-2">Pendiente de pago</span>
-            </div>
-          </div>
+          <PayPalBtn />
         </div>
       </div>
     </div>

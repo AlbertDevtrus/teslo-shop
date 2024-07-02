@@ -22,7 +22,7 @@ export const ProductsInCart = () => {
   return (
     <>
       {productsInCart.map((product) => (
-        <div key={`${product.slug}-${product.size}`} className="flex">
+        <div key={`${product.id}-${product.size}`} className="flex">
           <Image
             src={`/products/${product.image}`}
             width={100}
