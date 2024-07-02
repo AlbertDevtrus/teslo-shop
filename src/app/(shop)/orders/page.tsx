@@ -1,4 +1,3 @@
-// https://tailwindcomponents.com/component/hoverable-table
 import { getOrdersByUser } from "@/actions";
 import Title from "@/components/ui/title/Title";
 

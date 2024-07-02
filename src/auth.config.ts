@@ -31,7 +31,6 @@ export const authConfig: NextAuthConfig = {
     },
 
     authorized({ auth, request: { nextUrl } }) {
-      console.log({auth})
       const isLoggedIn = Boolean(auth?.user);
 
       if (authRoutes.includes(nextUrl.pathname)) {
