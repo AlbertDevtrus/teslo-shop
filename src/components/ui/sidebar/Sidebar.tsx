@@ -120,8 +120,9 @@ export default function Sidebar() {
               </Link>
       
               <Link
-                href='/'
+                href='/admin/orders'
                 className="flex items-center mt-4 p-2 hover:bg-gray-100 rounded transition-all"
+                onClick={() => closeSideMenu()}
               >
                 <IoTicketOutline size={25} />
                 <span className="ml-3 text-lg">Ordenes</span>
