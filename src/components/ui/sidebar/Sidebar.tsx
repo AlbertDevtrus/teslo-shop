@@ -112,8 +112,9 @@ export default function Sidebar() {
             <>
               <div className="w-full h-px bg-gray-200 my-10 rounded" />
               <Link
-                href='/'
+                href='/admin/products'
                 className="flex items-center mt-4 p-2 hover:bg-gray-100 rounded transition-all"
+                onClick={() => closeSideMenu()}
               >
                 <IoShirtOutline size={25} />
                 <span className="ml-3 text-lg">Productos</span>
@@ -129,8 +130,9 @@ export default function Sidebar() {
               </Link>
       
               <Link
-                href='/'
+                href='/admin/users'
                 className="flex items-center mt-4 p-2 hover:bg-gray-100 rounded transition-all"
+                onClick={() => closeSideMenu()}
               >
                 <IoPeopleOutline size={25} />
                 <span className="ml-3 text-lg">Usuarios</span>

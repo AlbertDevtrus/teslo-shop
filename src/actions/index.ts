@@ -19,3 +19,7 @@ export * from './order/get-paginated-orders'
 
 export * from './payments/set-transaction-id'
 export * from './payments/paypal-check-payment'
+
+export * from './user/get-paginated-users'
+export * from './user/change-user-role'
+
